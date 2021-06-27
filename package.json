@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/LorenaRuiz0717/BOG002-md-links/issues"
   },
-  "homepage": "https://github.com/LorenaRuiz0717/BOG002-md-links#readme"
+  "homepage": "https://github.com/LorenaRuiz0717/BOG002-md-links#readme",
+  "devDependencies": {
+    "jest": "^27.0.5"
+  },
+  "dependencies": {
+    "marked": "^2.1.1"
+  }
 }
