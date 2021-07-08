@@ -11,6 +11,8 @@ const path = require('path');
 // Librerias instaladas
 const markdownLinkExtractor = require('markdown-link-extractor');
 const axios = require('axios');
+// const { resolve } = require('path');
+// const { rejects } = require('assert');
 //const marked = require ('marked');
 
 //leerRuta('archivosMd')
@@ -89,40 +91,132 @@ function extraerLinks(archivos) {
           file: archivo.Ruta
         })
       } else {
-        console.log('Este link  ' + link.href + ' No aplica')
+        // console.log('Este link  ' + link.href + ' No aplica')
       }
 
     })
-    // console.log(arrayLinks)
-    validarStatus(arrayLinks)
+    //  console.log(arrayLinks)
+    // validarStatus(arrayLinks)
     return arrayLinks
   })
 }
-
+const linksPrueba = [
+  {
+    href: 'https://github.com/tcort/markdown-link-extractor',
+    text: 'Markdown',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md'
+  },
+  {
+    href: 'https://www.google.com',
+    text: 'Google',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md'
+  },
+  {
+    href: 'https://www.facebook.com',
+    text: 'Probando wwww',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md'
+  },
+  {
+    href: 'https://github.com/LorenaRuiz0717/BOG002-md-links',
+    text: 'MdLinks',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md'
+  },
+  {
+    href: 'https://github/LorenaRuiz0717/BOG002-md-links',
+    text: 'FailMdLinks',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md'
+  },
+  {
+    href: 'https://http.cat/',
+    text: 'Gatitos',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md'
+  }
+]
 //validar status links
-function validarStatus(links) {
+const validarStatus = (links) => {
   return links.map((link) => axios.get(link.href)
-      .then(respuesta => ({
-          ...link,
-          Estado: respuesta.status,
-          Respuesta: respuesta.statusText
-        }))
-      .catch(e => ({
-          ...link,
-          Estado:404,
-          Respuesta: 'Fail'
-      }) )
+    .then(respuesta => ({
+      ...link,//Spread, permite expandir el arreglo
+      Estado: respuesta.status,
+      Respuesta: respuesta.statusText
+    }))
+    .catch(e => ({
+      ...link,
+      Estado: 404,
+      Respuesta: 'Fail'
+    }))
   )
 }
+//  Promise.all(validarStatus(linksPrueba)).then(result => console.log(result))
+// console.log(validarStatus(linksPrueba))
 
-//Calcular cantidad de links 
-//recibir listado de links
-//validad su estado, contabilizarlos
-function estadistica(valido) {
-  console.log(valido)
+const pruebaEstadistica = [
+  {
+    href: 'https://www.google.com',
+    text: 'Google',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
+    Estado: 200,
+    Respuesta: 'OK'
+  },
+  {
+    href: 'https://www.facebook.com',
+    text: 'Probando wwww',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
+    Estado: 200,
+    Respuesta: 'OK'
+  },
+  {
+    href: 'https://github.com/LorenaRuiz0717/BOG002-md-links',
+    text: 'MdLinks',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
+    Estado: 200,
+    Respuesta: 'OK'
+  },
+  {
+    href: 'https://github/LorenaRuiz0717/BOG002-md-links',
+    text: 'FailMdLinks',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
+    Estado: 404,
+    Respuesta: 'Fail'
+  },
+  {
+    href: 'https://http.cat/',
+    text: 'Gatos',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
+    Estado: 200,
+    Respuesta: 'OK'
+  },
+  {
+    href: 'https://http.cat/',
+    text: 'Repetido',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
+    Estado: 200,
+    Respuesta: 'OK'
+  }
+]
+
+
+function estadistica(links) {
+  let linksUnicos = [...new Set(links.map((link) => link.href))];
+  let linksOk = 0
+  let linksFail = 0
+  links.map(link => {
+
+    if (link.Respuesta == 'OK') {
+      linksOk = linksOk + 1
+    } else {
+      linksFail = linksFail + 1
+    }
+  })
+  return ({
+    Total: links.length,
+    LinksUnicos: linksUnicos,
+    LinKsRotos: linksFail
+  })
 
 }
+estadistica(pruebaEstadistica)
 
 //funcion mdlinks q reciba ruta y opciones para el usuario listar-validar-estadistica
-//porque se repiten tantas veces?
+
 
