@@ -100,5 +100,13 @@ function leerArchivo(){
     // })
     
     // }
-    
-    
+    // condicionando cach
+    // }).catch(respuesta => {
+      //   if(respuesta.status < 199 && respuesta.status > 301) {
+      //     const fail =new Object({
+      //       ...link,
+      //       Estado:respuesta.status,
+      //       Respuesta:respuesta.statusText
+      //       })
+      //       console.log('Este link esta roto'+fail)
+      //       console.log(respuesta.statusText)
