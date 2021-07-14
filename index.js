@@ -12,11 +12,6 @@ const path = require('path');
 // Librerias instaladas
 const markdownLinkExtractor = require('markdown-link-extractor');
 const axios = require('axios');
-// const { resolve } = require('path');
-// const { rejects } = require('assert');
-//const marked = require ('marked');
-
-//leerRuta('archivosMd')
 
 
 //Leer y resolver ruta
@@ -43,19 +38,14 @@ const leerArchivos = rutaIngresada => {
 
     })
 
-  // extraerLinks(archivosMd)
-  // console.log(archivosMd)
   return (archivosMd)
 }
 
 // buscar links
 function extraerLinks(archivos) {
   const arrayLinks = []
-  // console.log('Pasando rutas archivos md '+archivosArray[0].Ruta)
-  // console.log('Archivos '+archivosArray[0].Archivo)
   archivos.forEach(archivo => {
     const links = markdownLinkExtractor(archivo.Archivo, true);
-    // console.log('estos son links'+links) 
     links.forEach(link => {
       if (link.href.startsWith('http'))//startsWith Determina si el principio de esta instancia de cadena coincide con la cadena especificada.
         arrayLinks.push({
@@ -75,13 +65,13 @@ function extraerLinks(archivos) {
 
     })
     //  console.log(arrayLinks)
-  
+
   })
   return arrayLinks
 }
 
 const validarStatus = (links) => {
-   const arrayLinks=links.map((link) => axios.get(link.href)
+  const arrayLinks = links.map((link) => axios.get(link.href)
     .then(respuesta => ({
       ...link,//Spread, permite expandir el arreglo
       Estado: respuesta.status,
@@ -93,14 +83,11 @@ const validarStatus = (links) => {
       Respuesta: 'Fail'
     }))
   )
-  //return arrayLinks
-   return Promise.all(arrayLinks)
-   //.then(result => console.log(result))
-  // return Promise.all(validarStatus(links))
+    return Promise.all(arrayLinks)
 }
 
 
-const estadistica=(links) => {
+const estadistica = (links) => {
   let linksUnicos = [...new Set(links.map((link) => link.href))];
   let linksOk = 0
   let linksFail = 0
@@ -113,11 +100,12 @@ const estadistica=(links) => {
   })
   return ({
     Total: links.length,
-    LinksUnicos: linksUnicos,
-    LinKsRotos: linksFail
+    LinksRotos: linksFail,
+    LinksUnicos: linksUnicos.length
+  
   })
 }
-// leerRuta('archivosMd')
+
 const funciones = {
   leerRuta,
   leerArchivos,
@@ -125,4 +113,4 @@ const funciones = {
   validarStatus,
   estadistica
 };
-module.exports=funciones
+module.exports = funciones

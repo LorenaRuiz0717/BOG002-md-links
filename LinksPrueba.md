@@ -10,6 +10,8 @@
   [MdLinks](https://github.com/LorenaRuiz0717/BOG002-md-links) 6
   [FailMdLinks](https://github/LorenaRuiz0717/BOG002-md-links) 7
   [Gatitos](https://http.cat/) 8
+  [Gatitos](https://http.cat/) 8
+  [Gatitos](https://http.cat/) 8
 
 
 

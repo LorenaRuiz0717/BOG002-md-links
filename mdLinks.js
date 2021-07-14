@@ -1,23 +1,41 @@
 //funcion mdlinks q reciba ruta y opciones para el usuario listar-validar-estadistica
+const chalk = require('chalk');
+const clear = require('clear');
+const figlet = require('figlet');
 const funciones = require("./index.js")
 
 function mdLinks(ruta, opciones) {
     const leyendo = funciones.leerRuta(ruta);
-    const leerArchivos = funciones.extraerLinks(leyendo)
-    if (opciones == false) {
-        // return new Promise((resolve,reject)=>{
-        // const leyendo=funciones.leerRuta(ruta);
-        console.log(leerArchivos)
+    const listaLinks = funciones.extraerLinks(leyendo)
+    if (opciones == 'validate') {
+        const status = funciones.validarStatus(listaLinks)
+            .then(result => console.log(chalk.blue(result)))
+            .catch(e => {
+                e.messange
+            })
+    } else if (opciones == 'stats') {
+        const status = funciones.validarStatus(listaLinks)
+            .then(status => funciones.estadistica(status))
+            .then(result => console.log(chalk.red(result)))
+                .catch(e => {e.messange})
     } else {
-        const status = funciones.validarStatus(leerArchivos)
-        console.log(status)
-            // .then(result => result.console.log(result))
-            // .catch(e => {
-            //     e.messange
-            // })
-        //console.log(status)
+        console.log(chalk.green(listaLinks))
+    
     }
-
 }
 
-mdLinks('LinksPrueba.md', true)
+
+
+// clear();
+
+// console.log(
+//   chalk.greenBright(
+//     figlet.textSync('Lore', { horizontalLayout: 'full' })
+//   )
+// )
+
+
+module.exports = { mdLinks }
+
+
+
