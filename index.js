@@ -6,8 +6,6 @@
 // Metodos Propios de Node
 const fs = require('fs');
 const path = require('path');
-// import { lstatSync, readFileSync, readdirSync } from 'fs';
-// import { isAbsolute, resolve, extname, join } from 'path';
 
 // Librerias instaladas
 const markdownLinkExtractor = require('markdown-link-extractor');
@@ -16,7 +14,6 @@ const axios = require('axios');
 
 //Leer y resolver ruta
 const leerRuta = ruta => path.isAbsolute(ruta) ? leerArchivos(ruta) : leerArchivos(path.resolve(ruta))
-
 
 // Leer los archivos de la  ruta
 const leerArchivos = rutaIngresada => {
@@ -34,8 +31,6 @@ const leerArchivos = rutaIngresada => {
           Ruta: rutaIngresada,
         })
         : console.log('Este archivo no es Md: ' + archivo)
-      // extraerMd(archivos)
-
     })
 
   return (archivosMd)
@@ -47,7 +42,7 @@ function extraerLinks(archivos) {
   archivos.forEach(archivo => {
     const links = markdownLinkExtractor(archivo.Archivo, true);
     links.forEach(link => {
-      if (link.href.startsWith('http'))//startsWith Determina si el principio de esta instancia de cadena coincide con la cadena especificada.
+      if (link.href.startsWith('http'))
         arrayLinks.push({
           href: link.href,
           text: link.text,
@@ -83,29 +78,47 @@ const validarStatus = (links) => {
       Respuesta: 'Fail'
     }))
   )
-    return Promise.all(arrayLinks)
+  return Promise.all(arrayLinks)
 }
 
-
+const linksValidados=[
+  {
+    href: 'https://github.com/tcort/markdown-link-extractor',
+    text: 'Markdown',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
+    Estado: 200,
+    Respuesta: 'OK'
+  },
+  {
+    href: 'https://www.google.com',
+    text: 'Google',
+    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
+    Estado: 200,
+    Respuesta: 'OK'
+  },
+]
 const estadistica = (links) => {
   let linksUnicos = [...new Set(links.map((link) => link.href))];
   let linksOk = 0
   let linksFail = 0
-  links.map(link => {
+
+  links.forEach(link => {
     if (link.Respuesta == 'OK') {
       linksOk = linksOk + 1
     } else {
       linksFail = linksFail + 1
     }
   })
-  return ({
+  let objEstadistica=({
     Total: links.length,
     LinksRotos: linksFail,
-    LinksUnicos: linksUnicos.length
-  
+    LinksUnicos: linksUnicos.length,
+    LinksOK:linksOk
   })
+  // console.log(objEstadistica)
+  return (objEstadistica)
 }
-
+// estadistica(linksValidados)
 const funciones = {
   leerRuta,
   leerArchivos,
