@@ -1,8 +1,3 @@
-
-// module.exports = () => {
-//   // ...
-// };
-
 // Metodos Propios de Node
 const fs = require('fs');
 const path = require('path');
@@ -55,12 +50,10 @@ function extraerLinks(archivos) {
           file: archivo.Ruta
         })
       } else {
-        // console.log('No aplica ' + link.href )
+        console.log('No aplica ' + link.href )
       }
 
     })
-    //  console.log(arrayLinks)
-
   })
   return arrayLinks
 }
@@ -81,49 +74,36 @@ const validarStatus = (links) => {
   return Promise.all(arrayLinks)
 }
 
-const linksValidados=[
-  {
-    href: 'https://github.com/tcort/markdown-link-extractor',
-    text: 'Markdown',
-    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
-    Estado: 200,
-    Respuesta: 'OK'
-  },
-  {
-    href: 'https://www.google.com',
-    text: 'Google',
-    file: 'C:\\Users\\Laboratoria\\OneDrive\\Desktop\\BOG002-md-links\\LinksPrueba.md',
-    Estado: 200,
-    Respuesta: 'OK'
-  },
-]
 const estadistica = (links) => {
   let linksUnicos = [...new Set(links.map((link) => link.href))];
-  let linksOk = 0
+
+  return ({
+    Total: links.length,
+    LinksUnicos: linksUnicos.length,
+  })
+
+}
+const vs = (links) => {
+  let linksUnicos = [...new Set(links.map((link) => link.href))];
   let linksFail = 0
 
   links.forEach(link => {
-    if (link.Respuesta == 'OK') {
-      linksOk = linksOk + 1
-    } else {
+    if (link.Respuesta != 'OK') {
       linksFail = linksFail + 1
-    }
+    } 
   })
-  let objEstadistica=({
-    Total: links.length,
+  return ({
     LinksRotos: linksFail,
     LinksUnicos: linksUnicos.length,
-    LinksOK:linksOk
   })
-  // console.log(objEstadistica)
-  return (objEstadistica)
+
 }
-// estadistica(linksValidados)
 const funciones = {
   leerRuta,
   leerArchivos,
   extraerLinks,
   validarStatus,
-  estadistica
+  estadistica,
+  vs
 };
 module.exports = funciones
