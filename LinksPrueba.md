@@ -1,5 +1,3 @@
-
-
 * [Pokémon](src/data/pokemon/pokemon.json):1
 * [Markdown](https://github.com/tcort/markdown-link-extractor) 2
   En este set encontrarás una lista con los 251 Pokémon de la región de Kanto
@@ -12,9 +10,3 @@
   [Gatitos](https://http.cat/) 8
   [Gatitos](https://http.cat/) 8
   [Gatitos](https://http.cat/) 8
-
-
-
-  
-
-

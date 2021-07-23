@@ -27,7 +27,6 @@ const leerArchivos = rutaIngresada => {
         })
         : console.log('Este archivo no es Md: ' + archivo)
     })
-
   return (archivosMd)
 }
 
@@ -50,7 +49,7 @@ function extraerLinks(archivos) {
           file: archivo.Ruta
         })
       } else {
-        console.log('No aplica ' + link.href )
+        // console.log('No aplica ' + link.href )
       }
 
     })
@@ -58,7 +57,7 @@ function extraerLinks(archivos) {
   return arrayLinks
 }
 
-const validarStatus = (links) => {
+const validarEstado = (links) => {
   const arrayLinks = links.map((link) => axios.get(link.href)
     .then(respuesta => ({
       ...link,//Spread, permite expandir el arreglo
@@ -102,7 +101,7 @@ const funciones = {
   leerRuta,
   leerArchivos,
   extraerLinks,
-  validarStatus,
+  validarEstado,
   estadistica,
   vs
 };
